@@ -1,3 +1,5 @@
+import pandas as pd
+
 # Criando variaveis de controle para o laço de repetição
 linha = 3
 coluna = 4
@@ -94,7 +96,12 @@ def menosSeguidores():
     print("Dados cadastrados!! ")
 
 
-if __name__ == "__main__":
-    print("--- Executando matriz.py como script principal (para teste) ---")
-    matrizMaisSeguidores()
-    menosSeguidores()
+# --- AQUI É ONDE VOCÊ USA O PANDAS ---
+def mostrarTabela(dadosGanhos, dadosPerdidos):
+    if(not dadosGanhos or not dadosPerdidos):
+        print("\n[ERRO] Não há dados para exibir. Cadastre-os primeiro (Opção 1).")
+        
+    else:
+        
+        return
+    
