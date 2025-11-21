@@ -1,4 +1,4 @@
-from matriz import matrizMaisSeguidores, menosSeguidores
+from matriz import matrizMaisSeguidores, menosSeguidores, mostrarTabela
 
 
 # Loop principal do menu
@@ -14,11 +14,11 @@ while True:
 
     match escolha:
         case "1":
-            matrizMaisSeguidores()
-            menosSeguidores()
+            dadosGanhos = matrizMaisSeguidores()
+            dadosPerdidos = menosSeguidores()
 
         case "2":
-            print("Teste 2")
+            mostrarTabela(dadosGanhos, dadosPerdidos)
 
         case "3":
             print("teste 3")
