@@ -14,6 +14,7 @@ while True:
 
     match escolha:
         case "1":
+            # Criei uma váriavel pra salvar os valores de cada resultado da matriz
             dadosGanhos = matrizMaisSeguidores()
             dadosPerdidos = menosSeguidores()
 
