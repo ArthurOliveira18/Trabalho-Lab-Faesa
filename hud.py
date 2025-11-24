@@ -1,5 +1,9 @@
-from matriz import matrizMaisSeguidores, menosSeguidores, mostrarTabela
+# Importe a nova função aqui
+from matriz import matrizMaisSeguidores, menosSeguidores, mostrarTabela, atualizarDados
 
+# Inicializa as variáveis vazias antes do loop para evitar erro de "NameError"
+dadosGanhos = []
+dadosPerdidos = []
 
 # Loop principal do menu
 while True:
@@ -7,7 +11,7 @@ while True:
     print("1. Cadastrar novos dados a matriz")
     print("2. Listagem da matriz")
     print("3. Editar os dados da matriz")
-    print("3. Relatório/pesquisa")
+    print("4. Relatório/pesquisa") # Corrigi a numeração que estava repetida
     print("0. Sair")
 
     escolha = input("Digite sua opção: ")
@@ -19,13 +23,15 @@ while True:
             dadosPerdidos = menosSeguidores()
 
         case "2":
+            # Só chama se tiver dados
             mostrarTabela(dadosGanhos, dadosPerdidos)
 
         case "3":
-            print("teste 3")
+            # Chama a nova função passando as matrizes atuais
+            atualizarDados(dadosGanhos, dadosPerdidos)
 
         case "4":
-            print("Teste 4")
+            print("Teste 4 - (Futura implementação de relatório)")
 
         case "0":
             print("Obrigado por usar o sistema. Saindo...")
@@ -33,5 +39,4 @@ while True:
 
         case _:
             # O 'case _' (underscore) é o caso padrão (default)
-            # Ele captura qualquer outra entrada que não "casou"
             print("Opção inválida! Por favor, tente novamente.")
