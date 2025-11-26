@@ -1,5 +1,12 @@
 # Importe a nova função aqui
-from matriz import matrizMaisSeguidores, menosSeguidores, mostrarTabela, atualizarDados
+# Adicione gerarRelatorio no final do import
+from matriz import (
+    matrizMaisSeguidores,
+    menosSeguidores,
+    mostrarTabela,
+    atualizarDados,
+    gerarRelatorio,
+)
 
 # Inicializa as variáveis vazias antes do loop para evitar erro de "NameError"
 dadosGanhos = []
@@ -11,7 +18,7 @@ while True:
     print("1. Cadastrar novos dados a matriz")
     print("2. Listagem da matriz")
     print("3. Editar os dados da matriz")
-    print("4. Relatório/pesquisa") # Corrigi a numeração que estava repetida
+    print("4. Relatório/pesquisa")  # Corrigi a numeração que estava repetida
     print("0. Sair")
 
     escolha = input("Digite sua opção: ")
@@ -31,7 +38,8 @@ while True:
             atualizarDados(dadosGanhos, dadosPerdidos)
 
         case "4":
-            print("Teste 4 - (Futura implementação de relatório)")
+            # Chama a função de relatório passando as listas preenchidas
+            gerarRelatorio(dadosGanhos, dadosPerdidos)
 
         case "0":
             print("Obrigado por usar o sistema. Saindo...")
