@@ -32,6 +32,7 @@ def matrizMaisSeguidores():
     print("Dados de ganhos cadastrados com sucesso!")
     # IMPORTANTE: Retorna a matriz preenchida, e com esse retorno da matriz preenchida, eu crio uma variavel no arquivo principal e armazeno esse return, ou seja, o resultado essa matriz na variavel.
     return matrizGanhos
+    
 
 
 def menosSeguidores():
