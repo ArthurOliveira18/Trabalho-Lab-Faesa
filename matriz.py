@@ -1,221 +1,177 @@
 import pandas as pd
 
-# --- Variáveis Globais ---
-linha = 3
-coluna = 4
-mes = ["Janeiro", "Fevereiro", "Março", "Abril"]
-redesSociais = ["Instagram", "Facebook", "Twitter"]
+meses = ["Janeiro", "Fevereiro", "Março", "Abril"]
+redes = ["Instagram", "Facebook", "Twitter"]
+
+qtd_redes = len(redes)
+qtd_meses = len(meses)
 
 
 def matrizMaisSeguidores():
-    matrizGanhos = []
     print("\n--- Cadastro de GANHOS de Seguidores ---")
+    matriz_temporaria = []
 
-    for l in range(linha):
-        linhaAtual = []
-        # Nome da rede social atual
-        rede_atual = redesSociais[l]
+    for i in range(qtd_redes):
+        linha_atual = []
+        nome_rede = redes[i]
 
-        for c in range(coluna):
+        for j in range(qtd_meses):
+            nome_mes = meses[j]
+
             while True:
                 try:
-                    prompt = f"Seguidores ganhos no {rede_atual} em {mes[c]}: "
-                    valor_digitado = input(prompt)
-                    valorAtual = int(valor_digitado)
-                    linhaAtual.append(valorAtual)
+                    print(f"Quantos seguidores o {nome_rede} ganhou em {nome_mes}?")
+                    valor = int(input("Digite o valor: "))
+                    linha_atual.append(valor)
                     break
                 except ValueError:
-                    print("Valor inválido! Digite apenas números inteiros.")
+                    print("Erro: Digite apenas números inteiros!")
 
-        matrizGanhos.append(linhaAtual)
+        matriz_temporaria.append(linha_atual)
 
-    print("Dados de ganhos cadastrados com sucesso!")
-    # IMPORTANTE: Retorna a matriz preenchida, e com esse retorno da matriz preenchida, eu crio uma variavel no arquivo principal e armazeno esse return, ou seja, o resultado essa matriz na variavel.
-    return matrizGanhos
-    
+    print("Dados de ganhos salvos com sucesso!")
+    return matriz_temporaria
 
 
 def menosSeguidores():
-    matrizPerdas = []
     print("\n--- Cadastro de PERDAS de Seguidores ---")
+    matriz_temporaria = []
 
-    for l in range(linha):
-        linhaAtual = []
-        rede_atual = redesSociais[l]
+    for i in range(qtd_redes):
+        linha_atual = []
+        nome_rede = redes[i]
 
-        for c in range(coluna):
+        for j in range(qtd_meses):
+            nome_mes = meses[j]
+
             while True:
                 try:
-                    prompt = f"Seguidores perdidos no {rede_atual} em {mes[c]}: "
-                    valor_digitado = input(prompt)
-                    valorAtual = int(valor_digitado)
-                    linhaAtual.append(valorAtual)
+                    print(f"Quantos seguidores o {nome_rede} perdeu em {nome_mes}?")
+                    valor = int(input("Digite o valor: "))
+                    linha_atual.append(valor)
                     break
                 except ValueError:
-                    print("Valor inválido! Digite apenas números inteiros.")
+                    print("Erro: Digite apenas números inteiros!")
 
-        matrizPerdas.append(linhaAtual)
+        matriz_temporaria.append(linha_atual)
 
-    print("Dados de perdas cadastrados com sucesso!")
-    # IMPORTANTE: Retorna a matriz preenchida, e com esse retorno da matriz preenchida, eu crio uma variavel no arquivo principal e armazeno esse return, ou seja, o resultado essa matriz na variavel.
-    return matrizPerdas
+    print("Dados de perdas salvos com sucesso!")
+    return matriz_temporaria
 
 
-# --- FUNÇÃO COM PANDAS ---
 def mostrarTabela(dadosGanhos, dadosPerdidos):
-    # Verificação de segurança
     if not dadosGanhos or not dadosPerdidos:
-        print("\n[ERRO] Não há dados para exibir. Cadastre-os primeiro.")
+        print("\n[ERRO] Você precisa cadastrar os dados primeiro!")
         return
 
     print("\n" + "=" * 40)
-    print("RELATÓRIO FINAL (FORMATO MATRIZ)")
+    print("RELATÓRIO GERAL")
     print("=" * 40)
 
-    # 1. Criando o DataFrame de GANHOS (Normal)
-    df_ganhos = pd.DataFrame(data=dadosGanhos, index=redesSociais, columns=mes)
+    tabela_ganhos = pd.DataFrame(dadosGanhos, index=redes, columns=meses)
+    tabela_perdas = pd.DataFrame(dadosPerdidos, index=redes, columns=meses)
 
-    # 2. Criando o DataFrame de PERDAS
-    # Criamos o DataFrame com os dados originais
-    df_perdas = pd.DataFrame(data=dadosPerdidos, index=redesSociais, columns=mes)
+    tabela_perdas_visual = tabela_perdas * -1
 
-    # TRUQUE: Multiplicamos o DataFrame inteiro por -1 apenas para exibição
-    # Assim, visualmente fica negativo, mas sua lista original continua intacta para os cálculos
-    df_perdas_visual = df_perdas * -1
+    print("\n--- Tabela de GANHOS ---")
+    print(tabela_ganhos)
 
-    print("\n--- Tabela de GANHOS de Seguidores ---")
-    print(df_ganhos)
-
-    print("\n" + "-" * 40)
-
-    print("\n--- Tabela de PERDAS de Seguidores ---")
-    # Agora imprimimos a tabela visual com o sinal de menos
-    print(df_perdas_visual)
+    print("\n--- Tabela de PERDAS ---")
+    print(tabela_perdas_visual)
 
 
 def atualizarDados(dadosGanhos, dadosPerdidos):
-    # Validação: Se as listas estiverem vazias ou não existirem
     if not dadosGanhos or not dadosPerdidos:
-        print("\n[ERRO] As matrizes estão vazias. Execute a opção 1 primeiro.")
+        print("\n[ERRO] Cadastre os dados primeiro!")
         return
 
-    print("\n--- ATUALIZAÇÃO DE DADOS ---")
+    print("\n--- ATUALIZAR UM VALOR ---")
+    print("1 - Corrigir Ganhos")
+    print("2 - Corrigir Perdas")
+    opcao = input("Escolha a opção (1 ou 2): ")
 
-    # 1. Escolher qual matriz editar
-    while True:
-        print("\nQual tabela deseja alterar?")
-        print("1 - Tabela de Ganhos")
-        print("2 - Tabela de Perdas")
-        op = input("Opção: ")
+    if opcao == "1":
+        matriz_alvo = dadosGanhos
+        tipo = "GANHOS"
+    elif opcao == "2":
+        matriz_alvo = dadosPerdidos
+        tipo = "PERDAS"
+    else:
+        print("Opção inválida.")
+        return
 
-        if op == "1":
-            matriz_alvo = dadosGanhos
-            nome_tabela = "GANHOS"
-            break
-        elif op == "2":
-            matriz_alvo = dadosPerdidos
-            nome_tabela = "PERDAS"
-            break
-        else:
-            print("Opção inválida. Digite 1 ou 2.")
+    print(f"\nEscolha a Rede Social para alterar em {tipo}:")
+    for i in range(qtd_redes):
+        print(f"{i} - {redes[i]}")
 
-    # 2. Escolher LINHA (Rede Social) pelo índice
-    print(f"\nSelecione a Rede Social em {nome_tabela}:")
-    for i, rede in enumerate(redesSociais):
-        print(f"{i} - {rede}")
+    try:
+        indice_linha = int(input("Digite o número da rede: "))
+        if indice_linha < 0 or indice_linha >= qtd_redes:
+            print("Número da rede inválido.")
+            return
+    except ValueError:
+        print("Erro: Digite um número.")
+        return
 
-    while True:
-        try:
-            l = int(input("Digite o número da linha: "))
-            if 0 <= l < linha:
-                break
-            print(f"Erro: Digite um valor entre 0 e {linha-1}")
-        except ValueError:
-            print("Erro: Digite um número inteiro.")
+    print("\nEscolha o Mês:")
+    for j in range(qtd_meses):
+        print(f"{j} - {meses[j]}")
 
-    # 3. Escolher COLUNA (Mês) pelo índice
-    print(f"\nSelecione o Mês em {nome_tabela}:")
-    for i, m in enumerate(mes):
-        print(f"{i} - {m}")
+    try:
+        indice_coluna = int(input("Digite o número do mês: "))
+        if indice_coluna < 0 or indice_coluna >= qtd_meses:
+            print("Número do mês inválido.")
+            return
+    except ValueError:
+        print("Erro: Digite um número.")
+        return
 
-    while True:
-        try:
-            c = int(input("Digite o número da coluna: "))
-            if 0 <= c < coluna:
-                break
-            print(f"Erro: Digite um valor entre 0 e {coluna-1}")
-        except ValueError:
-            print("Erro: Digite um número inteiro.")
+    valor_antigo = matriz_alvo[indice_linha][indice_coluna]
+    print(f"Valor atual: {valor_antigo}")
 
-    # 4. Atualizar o valor
-    valor_antigo = matriz_alvo[l][c]
-    print(f"\nValor atual de {redesSociais[l]} em {mes[c]}: {valor_antigo}")
-
-    while True:
-        try:
-            novo_valor = int(input("Digite o NOVO valor: "))
-            matriz_alvo[l][c] = novo_valor  # Atualiza diretamente a matriz original
-            print("Dado atualizado com sucesso!")
-            break
-        except ValueError:
-            print("Erro: O valor deve ser um número inteiro.")
+    try:
+        novo_valor = int(input("Digite o NOVO valor: "))
+        matriz_alvo[indice_linha][indice_coluna] = novo_valor
+        print("Atualizado com sucesso!")
+    except ValueError:
+        print("Erro: O valor deve ser um número inteiro.")
 
 
 def gerarRelatorio(dadosGanhos, dadosPerdidos):
-    # 1. Verificação: Se os dados não existem (Requisito: Exibir mensagem caso dados não sejam encontrados)
     if not dadosGanhos or not dadosPerdidos:
-        print(
-            "\n[AVISO] Dados não encontrados. Por favor, realize o cadastro (Opção 1) primeiro."
-        )
+        print("\n[ERRO] Cadastre os dados primeiro!")
         return
 
-    print("\n" + "=" * 40)
-    print("RELATÓRIO DE DESEMPENHO (FILTRO POR REDE)")
-    print("=" * 40)
+    print("\n--- ANÁLISE DETALHADA ---")
+    print("Escolha qual rede você quer analisar:")
 
-    # 2. Filtro: Usuário escolhe qual Rede Social quer analisar
-    print("Selecione a Rede Social para filtrar os dados:")
-    for i, rede in enumerate(redesSociais):
-        print(f"{i} - {rede}")
+    for i in range(qtd_redes):
+        print(f"{i} - {redes[i]}")
 
-    indice_filtro = -1
-    while True:
-        try:
-            op = int(input("Digite o número da rede social: "))
-            if 0 <= op < linha:
-                indice_filtro = op
-                break
-            else:
-                print(f"Erro: Digite um valor entre 0 e {linha-1}")
-        except ValueError:
-            print("Erro: Digite um número inteiro.")
+    try:
+        escolha = int(input("Digite o número da rede: "))
 
-    nome_rede = redesSociais[indice_filtro]
+        if escolha < 0 or escolha >= qtd_redes:
+            print("Opção inválida.")
+            return
 
-    # 3. Processamento: Buscar Maior Ganho e Maior Perda
-    # Pegamos a linha específica da rede escolhida
-    linha_ganhos = dadosGanhos[indice_filtro]
-    linha_perdas = dadosPerdidos[indice_filtro]
+        rede_escolhida = redes[escolha]
 
-    # Acha o maior valor e o índice (mês) onde ele ocorreu
-    maior_ganho = max(linha_ganhos)
-    mes_maior_ganho_index = linha_ganhos.index(maior_ganho)
-    mes_maior_ganho_nome = mes[mes_maior_ganho_index]
+        lista_de_ganhos = dadosGanhos[escolha]
+        lista_de_perdas = dadosPerdidos[escolha]
 
-    maior_perda = max(linha_perdas)
-    mes_maior_perda_index = linha_perdas.index(maior_perda)
-    mes_maior_perda_nome = mes[mes_maior_perda_index]
+        maior_ganho = max(lista_de_ganhos)
+        maior_perda = max(lista_de_perdas)
 
-    # 4. Exibição dos Resultados
-    print(f"\n--- Análise: {nome_rede.upper()} ---")
+        indice_ganho = lista_de_ganhos.index(maior_ganho)
+        indice_perda = lista_de_perdas.index(maior_perda)
 
-    # Resultado de Ganhos
-    print(f"Maior crescimento: {maior_ganho} seguidores.")
-    print(f"Mês do recorde: {mes_maior_ganho_nome}")
+        mes_ganho = meses[indice_ganho]
+        mes_perda = meses[indice_perda]
 
-    print("-" * 20)
+        print(f"\nResumo para: {rede_escolhida.upper()}")
+        print(f"-> Melhor momento: Ganhou {maior_ganho} seguidores em {mes_ganho}.")
+        print(f"-> Pior momento: Perdeu {maior_perda} seguidores em {mes_perda}.")
 
-    # Resultado de Perdas
-    print(f"Maior queda: {maior_perda} seguidores.")
-    print(f"Mês da maior perda: {mes_maior_perda_nome}")
-    print("=" * 40)
+    except ValueError:
+        print("Erro: Digite apenas números.")
